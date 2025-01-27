@@ -73,10 +73,22 @@ const UserList = () => {
         setSelectedUser(rowData);
     }
 
-    const onDelete=()=>{
-
-    }
-
+    const onDelete = (id) => {
+        axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`)
+            .then((response) => {
+                console.log(response);
+                if (response.status === 200) {
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'User deleted successfully!', life: 3000,});
+                } else {
+                    toast.current.show({ severity: 'error', summary: 'Error', detail: 'User not deleted successfully!', life: 3000,});
+                }
+            })
+            .catch((error) => {
+                console.error('Error deleting user:', error);
+                toast.current.show({severity: 'error',summary: 'Error',detail: 'An error occurred while deleting the user!',life: 3000,});
+            });
+    };
+    
     const actionBodyTemplate = (rowData) => {
         return <center>
             <span>
